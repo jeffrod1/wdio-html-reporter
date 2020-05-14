@@ -221,7 +221,10 @@ class HtmlReporter extends WDIOReporter {
     }
 
     onRunnerEnd(runner) {
-        let self = this ;
+        var self = this;
+        var spec = runner.specs[0].split("\\").pop();
+        var timestamp = moment().format("MM.DD.YYYY-hh.mm a");
+        
         this.log("onRunnerEnd: " , JSON.stringify(runner));
         self.openInProgress = true;
         self.metrics.start = runner.start ;
@@ -232,6 +235,31 @@ class HtmlReporter extends WDIOReporter {
         }
         if (! self.cid) {
             self.cid = "cid" ;
+        }
+        if (self.options.reportTitle.includes("<spec>")) {
+          self.options.reportTitle = self.options.reportTitle.replace(/<spec>/g, spec);
+
+          console.log(`SELF REPORT TITLE = ${self.options.reportTitle}`);
+        }
+
+        if (self.options.reportTitle.includes("<timestamp>")) {
+          self.options.reportTitle = self.options.reportTitle.replace(/<timestamp>/g, timestamp);
+
+          console.log(`SELF REPORT TITLE = ${self.options.reportTitle}`);
+        }
+
+        if (self.options.filename.includes("<spec>")) {
+          self.options.filename = self.options.filename.replace(/<spec>/g, spec);
+
+          console.log(`SELF FILENAME = ${self.options.filename}`);
+
+        }
+
+        if (self.options.filename.includes("<timestamp>")) {
+          self.options.filename = self.options.filename.replace(/<timestamp>/g, timestamp);
+
+          console.log(`SELF FILENAME = ${self.options.filename}`);
+
         }
         const reportOptions = {
             data : {
