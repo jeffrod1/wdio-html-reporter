@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "npm run build",
     "build:test": "babel test/* -d build-test",
-    "prepare": "babel src/* -d build/ && babel test/* -d build-test",
+    "build": "babel src/* -d build/ && babel test/* -d build-test",
     "clean:build": "rimraf ./build",
     "clean:reports": "rimraf ./reports",
     "test": "mocha build-test/**/*.js --require @babel/register"
