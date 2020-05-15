@@ -245,10 +245,12 @@ class HtmlReporter extends WDIOReporter {
 
         // Replace any Report Title tags if found
         self.options.reportTitle = self.options.reportTitle.replace(/<spec>/g, spec);
+        self.options.reportTitle = self.options.reportTitle.replace(/<date>/g, date);
         self.options.reportTitle = self.options.reportTitle.replace(/<timestamp>/g, timestamp);
 
         // Replace any Filename tags if found
         self.options.filename = self.options.filename.replace(/<spec>/g, spec);
+        self.options.filename = self.options.filename.replace(/<date>/g, date);
         self.options.filename = self.options.filename.replace(/<timestamp>/g, timestamp);
         
         const reportOptions = {
@@ -261,7 +263,7 @@ class HtmlReporter extends WDIOReporter {
             showInBrowser : self.options.showInBrowser,
             outputDir : self.options.outputDir,
             // reportFile : path.join(process.cwd(), self.options.outputDir, encodeURIComponent(self.suiteUid) , encodeURIComponent(self.cid), `${testStatus} - ${self.options.filename}`),
-            reportFile: path.join(process.cwd(), self.options.outputDir, `SAMStoTryCC - ${date}`, `${testStatus} - ${self.options.filename}`),
+            reportFile: path.join(process.cwd(), self.options.outputDir, `${testStatus} - ${self.options.filename}`),
             templateFilename: self.options.templateFilename,
             templateFuncs: self.options.templateFuncs,
         };
