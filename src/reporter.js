@@ -223,7 +223,13 @@ class HtmlReporter extends WDIOReporter {
     onRunnerEnd(runner) {
         var self = this;
         var spec = runner.specs[0].split("\\").pop();
-        var timestamp = moment().format("MM.DD.YYYY-hh.mm a");
+        var date = moment().format("MM.DD.YYYY");
+        var time = moment().format("hh.mm a");
+        var timestamp = `${date}-${time}`;
+        var testStatus;
+
+        // Text to add to FileName
+        runner.failures > 0 ? testStatus = 'FAILED' : testStatus = 'PASSED';
         
         this.log("onRunnerEnd: " , JSON.stringify(runner));
         self.openInProgress = true;
@@ -236,31 +242,15 @@ class HtmlReporter extends WDIOReporter {
         if (! self.cid) {
             self.cid = "cid" ;
         }
-        if (self.options.reportTitle.includes("<spec>")) {
-          self.options.reportTitle = self.options.reportTitle.replace(/<spec>/g, spec);
 
-          console.log(`SELF REPORT TITLE = ${self.options.reportTitle}`);
-        }
+        // Replace any Report Title tags if found
+        self.options.reportTitle = self.options.reportTitle.replace(/<spec>/g, spec);
+        self.options.reportTitle = self.options.reportTitle.replace(/<timestamp>/g, timestamp);
 
-        if (self.options.reportTitle.includes("<timestamp>")) {
-          self.options.reportTitle = self.options.reportTitle.replace(/<timestamp>/g, timestamp);
-
-          console.log(`SELF REPORT TITLE = ${self.options.reportTitle}`);
-        }
-
-        if (self.options.filename.includes("<spec>")) {
-          self.options.filename = self.options.filename.replace(/<spec>/g, spec);
-
-          console.log(`SELF FILENAME = ${self.options.filename}`);
-
-        }
-
-        if (self.options.filename.includes("<timestamp>")) {
-          self.options.filename = self.options.filename.replace(/<timestamp>/g, timestamp);
-
-          console.log(`SELF FILENAME = ${self.options.filename}`);
-
-        }
+        // Replace any Filename tags if found
+        self.options.filename = self.options.filename.replace(/<spec>/g, spec);
+        self.options.filename = self.options.filename.replace(/<timestamp>/g, timestamp);
+        
         const reportOptions = {
             data : {
                 info: runner,
@@ -270,7 +260,8 @@ class HtmlReporter extends WDIOReporter {
             },
             showInBrowser : self.options.showInBrowser,
             outputDir : self.options.outputDir,
-            reportFile : path.join(process.cwd(), self.options.outputDir, encodeURIComponent(self.suiteUid) , encodeURIComponent(self.cid), self.options.filename),
+            // reportFile : path.join(process.cwd(), self.options.outputDir, encodeURIComponent(self.suiteUid) , encodeURIComponent(self.cid), `${testStatus} - ${self.options.filename}`),
+            reportFile: path.join(process.cwd(), self.options.outputDir, `SAMStoTryCC - ${date}`, `${testStatus} - ${self.options.filename}`),
             templateFilename: self.options.templateFilename,
             templateFuncs: self.options.templateFuncs,
         };
