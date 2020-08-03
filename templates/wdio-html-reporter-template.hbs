@@ -204,7 +204,7 @@
         <tbody>
         <tr>
             <td>Browser</td>
-            <td>{{info.capabilities.browserName}} - {{info.capabilities.browserVersion}}</td>
+            <td>{{info.capabilities.browserName}} - {{info.capabilities.version}}</td>
         </tr>
 
         <tr>
@@ -259,9 +259,9 @@
             <tr>
                 <td colspan="2">
                 {{#isValidReport suites}}
-                    <h3>{{info.cid}}</h3>
+                    <h3>cID: {{info.cid}}</h3>
                 {{else}}
-                    <h3 class="warning">{{info.cid}}</h3>
+                    <h3 class="warning">cID: {{info.cid}}</h3>
                 {{/isValidReport}}
                     <table class="table table-bordered">
                         {{#if specs }}

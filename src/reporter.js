@@ -258,12 +258,12 @@ class HtmlReporter extends WDIOReporter {
                 info: runner,
                 metrics: self.metrics,
                 suites: self.getOrderedSuites(),
-                title: self.options.reportTitle
+                title: `Test #${rowNumber} - ${ssData.getCell('claimType').value}-${ssData.getCell('lossType')} - ${self.options.reportTitle}`
             },
             showInBrowser : self.options.showInBrowser,
             outputDir : self.options.outputDir,
             // reportFile : path.join(process.cwd(), self.options.outputDir, encodeURIComponent(self.suiteUid) , encodeURIComponent(self.cid), `${testStatus} - ${self.options.filename}`),
-            reportFile: path.join(process.cwd(), self.options.outputDir, `${testStatus} - ${self.options.filename}`),
+            reportFile: path.join(process.cwd(), self.options.outputDir, `Test${rowNumber} - ${testStatus} - ${ssData.getCell('claimType').value}-${ssData.getCell('lossType').value.replace(/\//g, "-")} - ${self.options.filename}`),
             templateFilename: self.options.templateFilename,
             templateFuncs: self.options.templateFuncs,
         };
